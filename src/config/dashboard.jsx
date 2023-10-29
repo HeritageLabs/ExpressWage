@@ -7,7 +7,7 @@ export const dashboardConfig = {
         url: DASHBOARD_URL,
       },
       {
-        title: 'Business',
+        title: 'Business Payroll',
         url: "#",
       },
       {
@@ -16,11 +16,7 @@ export const dashboardConfig = {
       },
   
       {
-        title: 'Employees',
-        url: "#",
-      },
-      {
-        title: 'Transactions',
+        title: 'Employees Payroll',
         url: "#",
       },
     ],
