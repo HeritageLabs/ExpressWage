@@ -21,3 +21,31 @@ export const dashboardConfig = {
       },
     ],
   };
+
+  export const allPayrollColumns = [
+    {
+      accessorKey: 'firstName',
+      header: 'First Name',
+    },
+    {
+      accessorKey: 'lastName',
+      header: 'Last Name',
+    },
+    {
+      accessorKey: 'walletAddress',
+      header: 'Wallet Address',
+    },
+    {
+      accessorKey: 'description',
+      header: 'Description',
+    },
+    {
+      accessorKey: 'deductions',
+      header: 'Deductions',
+    },
+    {
+      accessorKey: 'interval',
+      header: 'Interval',
+      // cell: ({ row }) => row.getValue('modifiedBy') || '-',
+    },
+  ]
