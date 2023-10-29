@@ -1,11 +1,15 @@
 import { Button } from "../components/ui/button";
-import { DASHBOARD_URL } from "./paths";
+import { ALL_PAYROLLEE_URL, PAYROLL_URL } from "./paths";
 
 export const dashboardConfig = {
     sidebarNav: [
       {
-        title: 'My Payrolls',
-        url: DASHBOARD_URL,
+        title: 'Payrolls',
+        url: PAYROLL_URL,
+      },
+      {
+        title: 'My Payrollees',
+        url: ALL_PAYROLLEE_URL,
       },
       {
         title: 'Business Payroll',

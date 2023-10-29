@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { DASHBOARD_URL, HOME_URL } from "../config/paths";
+import { ALL_PAYROLLEE_URL, HOME_URL } from "../config/paths";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const Navbar = () => {
                 <button className="hover:text-secondary font-light">About us</button>
                 <button className="hover:text-secondary font-light">How to get started</button>
             </div>
-            <Button onClick={() => navigate(DASHBOARD_URL)}>Connect wallet</Button>
+            <Button onClick={() => navigate(ALL_PAYROLLEE_URL)}>Connect wallet</Button>
         </div>
     )
 };

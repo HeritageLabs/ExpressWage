@@ -1,2 +1,3 @@
 export const HOME_URL = '/';
-export const DASHBOARD_URL = '/my-payrolls';
+export const ALL_PAYROLLEE_URL = '/my-payrollees';
+export const PAYROLL_URL = '/my-payrolls';

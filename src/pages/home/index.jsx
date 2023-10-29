@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import HomeLayout from "../../components/layouts/home-layout";
 import { Button } from "../../components/ui/button";
-import { DASHBOARD_URL } from "../../config/paths";
+import { ALL_PAYROLLEE_URL } from "../../config/paths";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Home = () => {
             </Button>
             <Button
               className="h-[45px] px-8 ml-8"
-              onClick={() => navigate(DASHBOARD_URL)}
+              onClick={() => navigate(ALL_PAYROLLEE_URL)}
             >
               Continue
             </Button>
