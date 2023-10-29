@@ -78,9 +78,12 @@ const DataTable = ({
               <TableRow>
                 <TableCell
                   colSpan={columns?.length}
-                  className="text-center font-extralight"
+                  className="text-center font-extralight w-full"
                 >
-                  No data found.
+                  <div className="w-fit mx-auto">
+                    <img src="/no-file.png" alt="all file" className="w-[120px]" />
+                    <p>No data found.</p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
