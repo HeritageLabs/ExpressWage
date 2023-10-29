@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DataTable from "../../components/data-table";
 import DashboardLayout from "../../components/layouts/dashboard-layout";
-import { allPayrollColumns } from "../../config/dashboard";
+import { allPayrollColumns, allPayrolls } from "../../config/dashboard";
 
 const DashboardHome = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -9,7 +9,7 @@ const DashboardHome = () => {
         <DashboardLayout>
                         <DataTable
               columns={allPayrollColumns}
-              data={[]}
+              data={allPayrolls}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               pageSize={1}

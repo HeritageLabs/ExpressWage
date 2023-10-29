@@ -1,3 +1,4 @@
+import { Button } from "../components/ui/button";
 import { DASHBOARD_URL } from "./paths";
 
 export const dashboardConfig = {
@@ -34,10 +35,15 @@ export const dashboardConfig = {
     {
       accessorKey: 'walletAddress',
       header: 'Wallet Address',
+      cell: ({ row }) => `${row.getValue('walletAddress').substring(0, 12)}...`,
     },
     {
-      accessorKey: 'description',
-      header: 'Description',
+      accessorKey: 'type',
+      header: 'Type',
+    },
+    {
+      accessorKey: 'salary',
+      header: 'Salary'
     },
     {
       accessorKey: 'deductions',
@@ -48,4 +54,77 @@ export const dashboardConfig = {
       header: 'Interval',
       // cell: ({ row }) => row.getValue('modifiedBy') || '-',
     },
+    {
+      accessorKey: 'action',
+      header: 'Action',
+      cell: () => (
+        <Button>Pay user</Button>
+      )
+    },
+  ];
+
+  export const allPayrolls = [
+    {
+      firstName: 'Temitope',
+      lastName: 'Moses',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '5 USDC',
+      interval: 'Monthly',
+      salary: '10 USDC'
+    },
+    {
+      firstName: 'Hexdee',
+      lastName: 'Hex',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '2 USDC',
+      interval: 'Weekly',
+      salary: '10 USDC'
+    },
+    {
+      firstName: 'Papi',
+      lastName: 'Chuks',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '2 USDC',
+      interval: 'Fortnight',
+      salary: '10 USDC'
+    },
+    {
+      firstName: 'Temitope',
+      lastName: 'Moses',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '5 USDC',
+      interval: 'Monthly',
+      salary: '10 USDC'
+    },
+    {
+      firstName: 'Hexdee',
+      lastName: 'Hex',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '2 USDC',
+      interval: 'Weekly',
+      salary: '10 USDC'
+    },
+    {
+      firstName: 'Papi',
+      lastName: 'Chuks',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '2 USDC',
+      interval: 'Fortnight',
+      salary: '10 USDC'
+    },
+    {
+      firstName: 'Temitope',
+      lastName: 'Moses',
+      walletAddress: 'xv023hjslsowndkdo332mndkd',
+      type: 'Business',
+      deductions: '5 USDC',
+      interval: 'Monthly',
+      salary: '10 USDC'
+    }
   ]

@@ -39,7 +39,7 @@ const DashboardLayout = ({ children }) => {
           </div>
 
           <div className="col-span-5 px-2 -mt-4 lg:mt-0">
-            <div className="fixed w-full lg:w-[81%] bg-dashboard z-20 top-0">
+            <div className="fixed w-full lg:w-[81%] bg-white z-20 top-0">
               <MainNav setShowNav={setShowNav} />
               <div className="h-[0.5px] bg-[#C7D0D7]" />
             </div>

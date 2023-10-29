@@ -36,12 +36,12 @@ const DataTable = ({
     <div className={cn("bg-table rounded-lg", className)}>
       <div>
         <Table>
-          <TableHeader className="overflow-hidden whitespace-nowrap text-ellipsis font-extralight">
+          <TableHeader className="overflow-hidden whitespace-nowrap font-extraLight text-ellipsis">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className={cn(headerClassName, "font-extralight")}>
+                    <TableHead key={header.id} className={cn(headerClassName, "font-normal")}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -54,8 +54,7 @@ const DataTable = ({
               </TableRow>
             ))}
           </TableHeader>
-          {/* min-h-[50vh] */}
-          <TableBody className="font-extralight h-[70vh]">
+          <TableBody className="font-extralight">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
