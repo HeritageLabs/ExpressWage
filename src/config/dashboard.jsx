@@ -1,3 +1,4 @@
+import { Briefcase, Contact2, Factory, PlusSquare } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { ALL_PAYROLLEE_URL, PAYROLL_URL } from "./paths";
 
@@ -132,3 +133,34 @@ export const dashboardConfig = {
       salary: '10 USDC'
     }
   ]
+
+  export const payrolls = ({ setOpen }) => [
+    {
+        id: 0,
+        name: 'Business Payroll',
+        href: "#",
+        icon: <Factory />,
+        onclick: () =>  null,
+    },
+    {
+        id: 1,
+        name: 'Family & Friends Payroll',
+        href: "#",
+        icon: <Contact2 />,
+        onclick: () =>  null,
+    },
+    {
+        id: 2,
+        name: 'Employees Payroll',
+        href: "#",
+        icon: <Briefcase />,
+        onclick: () =>  null,
+    },
+    {
+        id: 3,
+        name: 'Add New payroll',
+        href: "#",
+        icon: <PlusSquare />,
+        onclick: setOpen,
+    },
+]

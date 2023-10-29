@@ -1,5 +1,14 @@
 import { useState } from "react";
 import DataTable from "../../components/data-table";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "../../components/ui/dialog"
 import DashboardLayout from "../../components/layouts/dashboard-layout";
 import { allPayrollColumns, allPayrolls } from "../../config/dashboard";
 import { Button } from "../../components/ui/button";
@@ -9,7 +18,25 @@ const AllPayrollee = () => {
     return (
         <DashboardLayout>
             <div className="flex justify-end">
-                <Button className="bg-primary text-white my-2">Add Payrollee</Button>
+
+            <Dialog>
+      <DialogTrigger asChild>
+        <Button className="bg-primary text-white my-2 hover:bg-primary">Add Payrollee</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[525px]">
+        <DialogHeader>
+          <DialogTitle>Add a new Payrollee</DialogTitle>
+          <DialogDescription className="font-extralight">
+            Create a new payroll user here with their valid credentials.
+          </DialogDescription>
+        </DialogHeader>
+        <p>Content</p>
+        <DialogFooter>
+          {/* <Button type="submit">Save changes</Button> */}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+               
             </div>
                         <DataTable
               columns={allPayrollColumns}
