@@ -1,14 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import { DASHBOARD_URL, HOME_URL } from "../config/paths";
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="flex items-center w-full justify-between">
-            <img src="/logo.svg" alt="logo" className="w-[180px]" />
+            <a href={HOME_URL}>
+                <img src="/logo.svg" alt="logo" className="w-[180px]" />
+            </a>
             <div className="w-[20%] justify-between flex items-center">
-                <button className="hover:text-primary font-light">About us</button>
-                <button className="hover:text-primary font-light">How to get started</button>
+                <button className="hover:text-secondary font-light">About us</button>
+                <button className="hover:text-secondary font-light">How to get started</button>
             </div>
-            <Button>Connect wallet</Button>
+            <Button onClick={() => navigate(DASHBOARD_URL)}>Connect wallet</Button>
         </div>
     )
 };
