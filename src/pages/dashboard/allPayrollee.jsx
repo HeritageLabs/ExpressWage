@@ -12,6 +12,7 @@ import {
 import DashboardLayout from "../../components/layouts/dashboard-layout";
 import { allPayrollColumns, allPayrolls } from "../../config/dashboard";
 import { Button } from "../../components/ui/button";
+import CreatePayrolleeForm from "../../components/forms/create-payrollee";
 
 const AllPayrollee = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +31,7 @@ const AllPayrollee = () => {
             Create a new payroll user here with their valid credentials.
           </DialogDescription>
         </DialogHeader>
-        <p>Content</p>
+         <CreatePayrolleeForm />
         <DialogFooter>
           {/* <Button type="submit">Save changes</Button> */}
         </DialogFooter>

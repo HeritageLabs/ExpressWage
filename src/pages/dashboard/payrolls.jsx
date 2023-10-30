@@ -30,7 +30,7 @@ const Payrolls = () => {
             <Dialog  onOpenChange={setOpen} open={open}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>Add a new Payroll Type</DialogTitle>
+          <DialogTitle>Add a New Payroll Type</DialogTitle>
           <DialogDescription className="font-extralight">
             Create a new payroll type here.
           </DialogDescription>

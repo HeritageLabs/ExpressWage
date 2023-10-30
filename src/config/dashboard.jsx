@@ -63,7 +63,7 @@ export const dashboardConfig = {
       accessorKey: 'action',
       header: 'Action',
       cell: () => (
-        <Button>Pay user</Button>
+        <Button className="bg-background text-primary font-light border border-slate-200 hover:bg-slate-50">Pay user</Button>
       )
     },
   ];
