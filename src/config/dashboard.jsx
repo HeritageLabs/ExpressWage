@@ -1,6 +1,6 @@
 import { Briefcase, Contact2, Factory, PlusSquare } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { ALL_PAYROLLEE_URL, BUSINESS_URL, FAMILY_URL, PAYROLL_URL } from "./paths";
+import { ALL_PAYROLLEE_URL, BUSINESS_URL, EMPLOYEE_URL, FAMILY_URL, PAYROLL_URL } from "./paths";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
 import PaySinglePayrolleForm from "../components/forms/pay-single-payrolle";
 
@@ -25,7 +25,7 @@ export const dashboardConfig = {
   
       {
         title: 'Employees Payroll',
-        url: "#",
+        url: EMPLOYEE_URL,
       },
     ],
   };

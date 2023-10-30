@@ -7,7 +7,7 @@ import DataTable from "../../components/data-table";
 import { allPayrollColumns, allPayrolls } from "../../config/dashboard";
 import CreatePayrolleeForm from "../../components/forms/create-payrollee";
 
-const FamilyPayrollee = () => {
+const EmployeePayrollee = () => {
     const [currentPage, setCurrentPage] = useState(1);
     return (
         <DashboardLayout>
@@ -21,7 +21,7 @@ const FamilyPayrollee = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription className="font-light">
-            This action cannot be undone. This will credit all Family and Friends Payrollee wallet
+            This action cannot be undone. This will credit all Employee Payrollee wallet
             account and update your account balance on the servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -64,4 +64,4 @@ const FamilyPayrollee = () => {
     )
 };
 
-export default FamilyPayrollee
+export default EmployeePayrollee
