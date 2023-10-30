@@ -4,7 +4,6 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -34,8 +33,6 @@ const AllPayrollee = () => {
         <div className="max-h-[80vh] overflow-scroll px-2">
           <CreatePayrolleeForm />
         </div>
-        <DialogFooter>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
                
