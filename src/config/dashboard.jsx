@@ -1,6 +1,8 @@
 import { Briefcase, Contact2, Factory, PlusSquare } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { ALL_PAYROLLEE_URL, PAYROLL_URL } from "./paths";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+import PaySinglePayrolleForm from "../components/forms/pay-single-payrolle";
 
 export const dashboardConfig = {
     sidebarNav: [
@@ -57,13 +59,26 @@ export const dashboardConfig = {
     {
       accessorKey: 'interval',
       header: 'Interval',
-      // cell: ({ row }) => row.getValue('modifiedBy') || '-',
     },
     {
       accessorKey: 'action',
       header: 'Action',
-      cell: () => (
+      cell: ({ row }) => (
+
+        <Dialog>
+        <DialogTrigger asChild>
         <Button className="bg-background text-primary font-light border border-slate-200 hover:bg-slate-50">Pay user</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogHeader>
+            <DialogTitle>Pay Individual User</DialogTitle>
+            <DialogDescription className="font-extralight">
+              Confirm how much you want to pay {`${row.getValue("firstName")} ${row.getValue("lastName")}`}
+            </DialogDescription>
+          </DialogHeader>
+           <PaySinglePayrolleForm selectedPayrollee={row.original} />
+        </DialogContent>
+      </Dialog>
       )
     },
   ];

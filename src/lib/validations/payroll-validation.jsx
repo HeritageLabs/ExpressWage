@@ -11,6 +11,9 @@ export const createPayrollSchema = yup.object({
     .required('Payroll description is required')
     .min(3, 'Payroll description should be at least 2 characters')
     .max(200, 'Payroll description should not exceed 200 characters'),
+    payrollInterval: yup
+    .string()
+    .required('Payroll interval is required')
 });
 
 export const createPayrolleeSchema = yup.object({
@@ -32,9 +35,6 @@ export const createPayrolleeSchema = yup.object({
     type: yup
     .string()
     .required('Payroll type is required'),
-    // interval: yup
-    // .string()
-    // .required('Payroll interval is required'),
     salary: yup
     .string()
     .required('Payroll salary is required'),

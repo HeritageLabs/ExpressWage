@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPayrollSchema } from "../../lib/validations/payroll-validation";
 import { Button } from "../ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const CreatePayrollForm = () => {
   const form = useForm({
@@ -41,6 +42,32 @@ const CreatePayrollForm = () => {
                   invalid={fieldState.invalid}
                   {...field}
                 />
+              </FormControl>
+              <FormMessage className="font-extralight text-sm" />
+            </FormItem>
+          )}
+        />
+
+<FormField
+          control={form.control}
+          name="payrollInterval"
+          render={({ field, fieldState }) => (
+            <FormItem>
+              <FormLabel className="text-black">Interval</FormLabel>
+              <FormControl>
+                <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Payroll interval" className="font-light" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="fortnightly">Fortnightly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="quarterly">Quarterly</SelectItem>
+                    <SelectItem value="annually">Annually</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage className="font-extralight text-sm" />
             </FormItem>

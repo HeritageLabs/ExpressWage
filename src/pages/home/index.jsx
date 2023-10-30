@@ -7,12 +7,12 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <HomeLayout>
-      <div className="grid grid-cols-2 gap-16 mt-8 items-center px-12 py-4">
-        <div className="w-[80%]">
+      <div className="grid grid-cols-2 gap-16 mt-8 items-center px-24 py-4">
+        <div className="w-full">
           <h1 className="leading-[80px] text-[70px] font-medium">
             Help simplify your payroll process
           </h1>
-          <p className="mt-3 text-primary text-sm font-extralight">
+          <p className="mt-3 text-primary text-sm font-extralight w-[85%]">
             We make it easy for you to handle all of your payroll needs, from
             hiring employees to paying them and everything in between. Paying
             your family and friends.

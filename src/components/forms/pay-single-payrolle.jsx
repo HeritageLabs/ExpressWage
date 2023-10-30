@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Input } from "../ui/input";
 import {
   Select,
@@ -19,18 +20,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { createPayrolleeSchema } from "../../lib/validations/payroll-validation";
 import { Button } from "../ui/button";
 
-const CreatePayrolleeForm = () => {
+const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
   const form = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      walletAddress: "",
-      type: "",
-      deductions: "",
-      salary: "",
+      firstName: selectedPayrollee.firstName,
+      lastName: selectedPayrollee.lastName,
+      walletAddress: selectedPayrollee.walletAddress,
+      type: selectedPayrollee.type,
+      deductions: selectedPayrollee.deductions,
+      salary: selectedPayrollee.salary,
     },
     resolver: yupResolver(createPayrolleeSchema),
   });
+  console.log(selectedPayrollee, '');
 
   const onSubmit = (data) => {
     console.log(data);
@@ -50,6 +52,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee First Name"
                   invalid={fieldState.invalid}
                   className="font-light"
+                  disabled
                   {...field}
                 />
               </FormControl>
@@ -69,6 +72,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee Last Name"
                   invalid={fieldState.invalid}
                   className="font-light"
+                  disabled
                   {...field}
                 />
               </FormControl>
@@ -88,6 +92,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee Wallet Address"
                   invalid={fieldState.invalid}
                   className="font-light"
+                  disabled
                   {...field}
                 />
               </FormControl>
@@ -103,14 +108,14 @@ const CreatePayrolleeForm = () => {
             <FormItem>
               <FormLabel className="text-black">Type</FormLabel>
               <FormControl>
-                <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value} disabled>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Payroll type" className="font-light" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="employees">Employees</SelectItem>
-                    <SelectItem value="business">Business</SelectItem>
-                    <SelectItem value="family">Family & Friends</SelectItem>
+                    <SelectItem value="Employees">Employees</SelectItem>
+                    <SelectItem value="Business">Business</SelectItem>
+                    <SelectItem value="Family & Friends">Family & Friends</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -131,6 +136,7 @@ const CreatePayrolleeForm = () => {
                   invalid={fieldState.invalid}
                   type="number"
                   className="font-light"
+                  disabled
                   {...field}
                 />
               </FormControl>
@@ -152,6 +158,7 @@ const CreatePayrolleeForm = () => {
                   invalid={fieldState.invalid}
                   type="number"
                   className="font-light"
+                  disabled
                   {...field}
                 />
               </FormControl>
@@ -160,10 +167,10 @@ const CreatePayrolleeForm = () => {
           )}
         />
 
-        <Button className="w-full h-[48px]">Create Payrollee</Button>
+        <Button className="w-full h-[48px]">Pay now</Button>
       </form>
     </Form>
   );
 };
 
-export default CreatePayrolleeForm;
+export default PaySinglePayrolleForm;

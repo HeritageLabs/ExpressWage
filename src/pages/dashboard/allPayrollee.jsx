@@ -31,9 +31,10 @@ const AllPayrollee = () => {
             Create a new payroll user here with their valid credentials.
           </DialogDescription>
         </DialogHeader>
-         <CreatePayrolleeForm />
+        <div className="max-h-[80vh] overflow-scroll px-2">
+          <CreatePayrolleeForm />
+        </div>
         <DialogFooter>
-          {/* <Button type="submit">Save changes</Button> */}
         </DialogFooter>
       </DialogContent>
     </Dialog>
