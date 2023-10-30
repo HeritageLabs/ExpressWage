@@ -1,6 +1,6 @@
 import { Briefcase, Contact2, Factory, PlusSquare } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { ALL_PAYROLLEE_URL, BUSINESS_URL, EMPLOYEE_URL, FAMILY_URL, PAYROLL_URL } from "./paths";
+import { ALL_PAYROLLEE_URL, BUSINESS_URL, EMPLOYEE_URL, FAMILY_URL, PAYROLL_URL, TRANSACTIONS_URL } from "./paths";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
 import PaySinglePayrolleForm from "../components/forms/pay-single-payrolle";
 
@@ -21,14 +21,47 @@ export const dashboardConfig = {
       {
         title: 'Family & Friends',
         url: FAMILY_URL,
-      },
-  
+      },  
       {
         title: 'Employees Payroll',
         url: EMPLOYEE_URL,
       },
+      {
+        title: 'Transaction History',
+        url: TRANSACTIONS_URL,
+      },
     ],
   };
+
+  export const transactionColumn = [
+    {
+      accessorKey: 'firstName',
+      header: 'First Name',
+    },
+    {
+      accessorKey: 'lastName',
+      header: 'Last Name',
+    },
+    {
+      accessorKey: 'walletAddress',
+      header: 'Wallet Address',
+      cell: ({ row }) => `${row.getValue('walletAddress').substring(0, 12)}...`,
+    },
+    {
+      accessorKey: 'amount',
+      header: 'Amount',
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => {
+        const status = row.getValue('status');
+        return (
+          <Button className={`capitalize ${status === 'success' ? 'bg-background border border-[#16A34A] text-[#16A34A]' : 'bg-background border border-[#B91C1C] text-[#B91C1C]'}`} disabled>{status}</Button>
+        )
+      }
+    },
+  ]
 
   export const allPayrollColumns = [
     {
@@ -178,4 +211,28 @@ export const dashboardConfig = {
         icon: <PlusSquare />,
         onclick: setOpen,
     },
+];
+
+export const transactions = [
+  {
+    firstName: 'Temitope',
+    lastName: 'Moses',
+    walletAddress: 'xv023hjslsowndkdo332mndkd',
+    amount: '5000',
+    status: 'success'
+  },
+  {
+    firstName: 'Jaguar',
+    lastName: 'jag',
+    walletAddress: 'xv023hjslsowndkdo332mndkd',
+    amount: '3500',
+    status: 'fail'
+  },
+  {
+    firstName: 'Hexdee',
+    lastName: 'Papi',
+    walletAddress: 'xv023hjslsowndkdo332mndkd',
+    amount: '5000',
+    status: 'success'
+  },
 ]
