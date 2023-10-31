@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import { LogOut, Menu } from 'lucide-react';
-import { Avatar, AvatarFallback } from "../components/ui/avatar"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +11,7 @@ import {
 
 import { HOME_URL } from '../config/paths';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { CustomButton } from './ui/custom-button';
 
 const MainNav = ({ setShowNav }) => {
     const navigate = useNavigate();
@@ -32,14 +31,9 @@ const MainNav = ({ setShowNav }) => {
       <Menu className="sm:flex md:hidden" onClick={() => setShowNav(true)} />
       <p className="font-medium w-fit capitalize">{renderTitle()}</p>
       <div className="flex items-center">
-        {/* <Settings className="mr-2 h-[22px] w-[22px]" /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar>
-              <AvatarFallback className="bg-primary text-white border-none outline-none">
-                OM
-              </AvatarFallback>
-            </Avatar>
+            <CustomButton chainStatus="icon" showBalance={false} accountStatus="avatar"  />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
