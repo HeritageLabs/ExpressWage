@@ -6,22 +6,23 @@ import SidebarNav from '../side-bar';
 import MainNav from '../main-nav';
 import { useNavigate } from 'react-router-dom';
 import { HOME_URL } from '../../config/paths';
+import { useAccount } from "wagmi";
 
 const DashboardLayout = ({ children }) => {
   const [showNav, setShowNav] = useState(false);
   const [showLayout, setLayout] = useState(false);
+  const { isConnected } = useAccount();
   const navigate = useNavigate();
-  const isLoggedIn = "true";
 
   useEffect(() => {
 
-    if (!isLoggedIn) {
+    if (!isConnected) {
       setLayout(false);
       navigate(HOME_URL);
     } else {
       setLayout(true);
     }
-  }, []);
+  }, [isConnected]);
 
   return (
     <>

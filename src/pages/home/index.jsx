@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import HomeLayout from "../../components/layouts/home-layout";
 import { Button } from "../../components/ui/button";
-import { ALL_PAYROLLEE_URL } from "../../config/paths";
+import { PAYROLL_URL } from "../../config/paths";
+import { useAccount } from "wagmi";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { isConnected } = useAccount();
   return (
     <HomeLayout>
       <div className="grid grid-cols-2 gap-16 mt-8 items-center px-24 py-4">
@@ -19,14 +21,14 @@ const Home = () => {
           </p>
 
           <div className="flex mt-5">
-            <Button className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary">
-              Get started
+            <Button className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary" onClick={() => { isConnected ? navigate(PAYROLL_URL) : null }}>
+              {isConnected ? 'Go to dashboard' : 'Get started'}
             </Button>
             <Button
               className="h-[45px] px-8 ml-8"
-              onClick={() => navigate(ALL_PAYROLLEE_URL)}
+              onClick={() => { isConnected ? navigate(PAYROLL_URL) : null }}
             >
-              Continue
+              {isConnected ? 'Continue' : 'Connect wallet'}
             </Button>
           </div>
         </div>
