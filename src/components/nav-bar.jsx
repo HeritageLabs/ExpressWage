@@ -1,7 +1,17 @@
 import { HOME_URL } from "../config/paths";
 import { CustomButton } from "./ui/custom-button";
+import { useConnect } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+
 
 const Navbar = () => {
+  const { connect } = useConnect({
+      connector: new InjectedConnector(),
+  });
+  
+  useEffect(() => {
+      connect();
+  }, []);
 
   return (
     <div className="flex items-center w-full justify-between">
@@ -14,7 +24,7 @@ const Navbar = () => {
           How to get started
         </button>
       </div>
-      <CustomButton
+      {!(window.ethereum && window.ethereumisMiniPay) && <CustomButton
         accountStatus={{
             smallScreen: 'avatar',
             largeScreen: 'full',
@@ -24,7 +34,7 @@ const Navbar = () => {
             largeScreen: true,
           }}
         chainStatus="none"
-      />
+      />}
     </div>
   );
 };
