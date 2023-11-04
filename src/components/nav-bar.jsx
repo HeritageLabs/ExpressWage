@@ -2,7 +2,7 @@ import { HOME_URL } from "../config/paths";
 import { CustomButton } from "./ui/custom-button";
 import { useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { connect } = useConnect({

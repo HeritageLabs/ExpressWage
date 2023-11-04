@@ -1,17 +1,7 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from './button';
-import { useConnect } from 'wagmi';
-import { useEffect } from 'react';
-import {InjectedConnector} from 'wagmi/connectors/injected'
 
 export const CustomButton = () => {
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  })
-  
-  useEffect(() => {
-    connect()
-  }, [])
 
   return (
     <ConnectButton.Custom>
