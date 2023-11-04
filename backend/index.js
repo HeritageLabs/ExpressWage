@@ -11,14 +11,17 @@ const app = express()
 app.use(express.json())
 // app.use(cors)
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/employee', auth, async (req, res) => {
+app.get('/employees', auth, async (req, res) => {
   try {
     const userWalletAddress = req.user
-    const user = await User.findOne({walletAddress: userWalletAddress})
+    let user = await User.findOne({walletAddress: userWalletAddress})  
+    if(!user) {
+      user = await User.create({walletAddress: userWalletAddress, employees: []})
+    }
     const employees = user.employees
     res.status(200).json(employees)
   } catch (error) {
@@ -49,6 +52,122 @@ app.post('/employee', auth, async (req, res) => {
   } catch (error) {
     console.error({error})
     res.status(500).json({message: 'Error creating employee'})
+  }
+});
+
+// Create a new endpoint for bulk employee creation
+app.post('/employees', auth, async (req, res) => {
+  const userWalletAddress = req.user;
+  const {employees} = req.body; // An array of employee data
+
+    if(!employees) {
+      return res.status(401).json({message: "Invalid employee data"})
+    }
+
+  try {
+    let user = await User.findOne({ walletAddress: userWalletAddress });
+    if(!user) {
+      user = await User.create({walletAddress: userWalletAddress, employees: []})
+    }
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const createdEmployees = await Employee.create(employees);
+    user.employees = user.employees.concat(createdEmployees);
+    await user.save();
+
+    res.status(200).json({ message: 'Employees created successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error creating employees' });
+  }
+});
+
+// Create an endpoint for employee update by employee ID
+app.put('/employee/:employeeId', auth, async (req, res) => {
+  const userWalletAddress = req.user;
+  const employeeId = req.params.employeeId;
+  const {data} = req.body;
+
+  try {
+    let user = await User.findOne({ walletAddress: userWalletAddress });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const employeeIndex = user.employees.findIndex((employee) => employee._id == employeeId);
+
+    if (employeeIndex === -1) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(employeeId, data, { new: true });
+
+    user.employees[employeeIndex] = updatedEmployee;
+    await user.save();
+
+    res.status(200).json({ message: 'Employee updated successfully', employee: updatedEmployee });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating employee' });
+  }
+});
+
+// Create an endpoint for employee deletion by employee ID
+app.delete('/employee/:employeeId', auth, async (req, res) => {
+  const userWalletAddress = req.user;
+  const employeeId = req.params.employeeId;
+
+  try {
+    let user = await User.findOne({ walletAddress: userWalletAddress });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const employeeIndex = user.employees.findIndex((employee) => employee._id == employeeId);
+
+    if (employeeIndex === -1) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    user.employees.splice(employeeIndex, 1);
+    await user.save();
+
+    await Employee.findByIdAndDelete(employeeId);
+
+    res.status(200).json({ message: 'Employee deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting employee' });
+  }
+});
+
+// Create an endpoint for getting a single employee by employee ID
+app.get('/employee/:employeeId', auth, async (req, res) => {
+  const userWalletAddress = req.user;
+  const employeeId = req.params.employeeId;
+
+  try {
+    let user = await User.findOne({ walletAddress: userWalletAddress });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const employee = user.employees.find((employee) => employee._id == employeeId);
+
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    res.status(200).json(employee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting employee' });
   }
 });
 

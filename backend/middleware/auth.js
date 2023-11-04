@@ -1,12 +1,9 @@
 const ethers = require('ethers')
 
-const config = process.env;
-
-const verifySignature = (req, res, next) => {
+const verifySignature = async (req, res, next) => {
   const signature =
     req.body.signature || req.query.signature
 
-  console.log(signature)
   if (!signature) {
     return res.status(403).send("A signature is required for authentication")
   }
