@@ -24,7 +24,7 @@ const Navbar = () => {
           How to get started
         </button>
       </div>
-      {!(window.ethereum && window.ethereumisMiniPay) && <CustomButton
+      <CustomButton
         accountStatus={{
             smallScreen: 'avatar',
             largeScreen: 'full',
@@ -34,7 +34,7 @@ const Navbar = () => {
             largeScreen: true,
           }}
         chainStatus="none"
-      />}
+      />
     </div>
   );
 };
