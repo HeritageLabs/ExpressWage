@@ -11,32 +11,12 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
-  zora,
-  avalancheFuji,
-  arbitrumGoerli,
-  goerli,
-} from 'wagmi/chains';
+import {celo, celoAlfajores} from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { DashboardProvider } from './context/dashboard-context';
 
 const { chains, publicClient } = configureChains(
-  [
-    avalancheFuji,
-    arbitrumGoerli,
-    goerli,
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    base,
-    zora,
-  ],
+  [celo, celoAlfajores],
   [publicProvider()]
 );
 
