@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './styles/index.css'
-import WebRoutes from './routes/index.jsx'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './styles/index.css';
+import WebRoutes from './routes/index.jsx';
+import { BrowserRouter } from 'react-router-dom';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   darkTheme,
@@ -18,22 +18,30 @@ import {
   arbitrum,
   base,
   zora,
-  avalancheFuji, arbitrumGoerli, goerli
+  avalancheFuji,
+  arbitrumGoerli,
+  goerli,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { DashboardProvider } from './context/dashboard-context';
 
 const { chains, publicClient } = configureChains(
-  [avalancheFuji, arbitrumGoerli, goerli,   mainnet,
+  [
+    avalancheFuji,
+    arbitrumGoerli,
+    goerli,
+    mainnet,
     polygon,
     optimism,
     arbitrum,
     base,
-    zora,],
+    zora,
+  ],
   [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "ExpressWage",
+  appName: 'ExpressWage',
   projectId: `${process.env.VITE_REACT_APP_WALLET_PROJECT_ID}`,
   chains,
 });
@@ -46,18 +54,23 @@ const wagmiConfig = createConfig({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-    <WagmiConfig config={wagmiConfig}>
-    <RainbowKitProvider chains={chains} theme={darkTheme({
-      accentColor: '#2250F1',
-      accentColorForeground: 'white',
-      borderRadius: 'medium',
-      fontStack: 'system',
-      overlayBlur: 'small',
-    })}>
-      <WebRoutes />
-    </RainbowKitProvider>
-    </WagmiConfig>
-    </BrowserRouter>
-  </React.StrictMode>,
-)
+    <DashboardProvider>
+      <BrowserRouter>
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider
+            chains={chains}
+            theme={darkTheme({
+              accentColor: '#2250F1',
+              accentColorForeground: 'white',
+              borderRadius: 'medium',
+              fontStack: 'system',
+              overlayBlur: 'small',
+            })}
+          >
+            <WebRoutes />
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </BrowserRouter>
+    </DashboardProvider>
+  </React.StrictMode>
+);
