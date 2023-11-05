@@ -4,12 +4,12 @@ const express = require('express')
 const auth = require('./middleware/auth')
 const User = require('./model/user')
 const Employee = require('./model/employee')
-// const cors = require('cors')
+const cors = require('cors')
 
 const port = process.env.PORT || 4000 
 const app = express()
 app.use(express.json())
-// app.use(cors)
+app.use(cors)
 
 app.get('/', async(req, res) => {
   res.send('Hello World!')
