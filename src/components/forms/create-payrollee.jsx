@@ -18,6 +18,16 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPayrolleeSchema } from "../../lib/validations/payroll-validation";
 import { Button } from "../ui/button";
+import { useContext } from "react";
+import { DashboardContext } from "../../context/dashboard-context";
+
+/**
+ * TODO: 
+ * 
+ * - Add loading state to Create button
+ * - Clear state and close dialog after creating payrollee
+ * 
+ */
 
 const CreatePayrolleeForm = () => {
   const form = useForm({
@@ -31,9 +41,11 @@ const CreatePayrolleeForm = () => {
     },
     resolver: yupResolver(createPayrolleeSchema),
   });
+  const {addPayrollee} = useContext(DashboardContext);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (payrollee) => {
+    const res = await addPayrollee(payrollee);
+    console.log({res});
   };
 
   return (

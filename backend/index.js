@@ -9,10 +9,10 @@ const cors = require('cors')
 const port = process.env.PORT || 4000 
 const app = express()
 app.use(express.json())
-app.use(cors)
+app.use(cors())
 
 app.get('/', async(req, res) => {
-  res.send('Hello World!')
+  res.status(200).json({message: 'Hello World!'})
 })
 
 app.get('/employees', auth, async (req, res) => {
@@ -39,14 +39,24 @@ app.post('/employee', auth, async (req, res) => {
     if(!user) {
       user = await User.create({walletAddress: userWalletAddress, employees: []})
     }
-    const {firstName, lastName, walletAddress, wages} = employeeData
+    const {firstName, lastName, walletAddress, salary} = employeeData
+    
+    if(!firstName || !lastName || !walletAddress || !salary) {
+      return res.status(400).json({message: "Invalid employee data"})
+    }
+
+    // Check if an employee with the same wallet address already exists
+    const duplicateEmployee = user.employees.find(
+      (employee) => employee.walletAddress === walletAddress
+    );
+
+    if (duplicateEmployee) {
+      return res.status(409).json({ message: "Employee with the same wallet address already exists." });
+    }
+
     const newEmployee = await Employee.create(employeeData)
     user.employees.push(newEmployee)
     await user.save()
-  
-    if(!firstName || !lastName || !walletAddress || !wages) {
-      return res.status(401).json({message: "Invalid employee data"})
-    }
 
     res.status(200).json({ message: 'Employee data saved' })
   } catch (error) {
@@ -54,6 +64,38 @@ app.post('/employee', auth, async (req, res) => {
     res.status(500).json({message: 'Error creating employee'})
   }
 });
+
+app.post('/employee/paid/:employeeId', auth, async (req, res) => {
+  const employeeId = req.params.employeeId;
+  const employeeData = req.body
+  const userWalletAddress = req.user
+
+  try {
+    let user = await User.findOne({ walletAddress: userWalletAddress });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const employeeIndex = user.employees.findIndex((employee) => employee._id == employeeId);
+
+    if (employeeIndex === -1) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(employeeId, {lastPaid: new Date().toUTCString()}, { new: true });
+
+    user.employees[employeeIndex] = updatedEmployee;
+    await user.save();
+
+    res.status(200).json({ message: 'Employee updated successfully', employee: updatedEmployee });
+
+  } catch (error) {
+    console.error({error})
+    res.status(500).json({message: 'Error updating employee'})
+  }
+});
+
 
 // Create a new endpoint for bulk employee creation
 app.post('/employees', auth, async (req, res) => {

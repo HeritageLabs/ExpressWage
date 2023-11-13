@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DataTable from "../../components/data-table";
 import {
     Dialog,
@@ -12,9 +12,16 @@ import DashboardLayout from "../../components/layouts/dashboard-layout";
 import { allPayrollColumns, allPayrolls } from "../../config/dashboard";
 import { Button } from "../../components/ui/button";
 import CreatePayrolleeForm from "../../components/forms/create-payrollee";
+import { DashboardContext } from "../../context/dashboard-context";
 
 const AllPayrollee = () => {
+    const {payrollees} = useContext(DashboardContext);
     const [currentPage, setCurrentPage] = useState(1);
+
+    useEffect(() => {
+      console.log(payrollees);
+      // console.log({payrollee});
+    }, [payrollees]);
     return (
         <DashboardLayout>
             <div className="flex justify-end">
@@ -39,7 +46,7 @@ const AllPayrollee = () => {
             </div>
                         <DataTable
               columns={allPayrollColumns}
-              data={allPayrolls}
+              data={payrollees}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               pageSize={1}

@@ -18,8 +18,6 @@ const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
   const { payrollee } = useContext(DashboardContext);
 
-  console.log(payrollee);
-
   useEffect(() => {
     if (!isConnected) {
       setLayout(false);

@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const employeeSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  walletAddress: String,
+  walletAddress: {type: String},
 //   email: String,
 //   position: String,
-  wage: Number,
+  salary: Number,
+  type: {type: String, default: 'Businness'},
   deductions: { type: Number, default: 0 },
-  interval: { type: Number, default: null },
-  lastPaid: { type: String, default: null },
+  // interval: { type: Number, default: null },
+  lastPaid: { type: Date, default: null },
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);

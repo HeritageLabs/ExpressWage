@@ -16,7 +16,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import { DashboardProvider } from './context/dashboard-context';
 
 const { chains, publicClient } = configureChains(
-  [celo, celoAlfajores],
+  [celoAlfajores, celo],
   [publicProvider()]
 );
 
@@ -34,9 +34,9 @@ const wagmiConfig = createConfig({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <DashboardProvider>
       <BrowserRouter>
         <WagmiConfig config={wagmiConfig}>
+    <DashboardProvider>
           <RainbowKitProvider
             chains={chains}
             theme={darkTheme({
@@ -49,8 +49,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           >
             <WebRoutes />
           </RainbowKitProvider>
+    </DashboardProvider>
         </WagmiConfig>
       </BrowserRouter>
-    </DashboardProvider>
   </React.StrictMode>
 );

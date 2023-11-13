@@ -19,6 +19,16 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPayrolleeSchema } from "../../lib/validations/payroll-validation";
 import { Button } from "../ui/button";
+import { useContext } from "react";
+import { DashboardContext } from "../../context/dashboard-context";
+
+/**
+ * TODO: 
+ * 
+ * - Add loading state to Pay Now button
+ * - Clear state and close dialog after creating payrollee
+ * 
+ */
 
 const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
   const form = useForm({
@@ -32,10 +42,12 @@ const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
     },
     resolver: yupResolver(createPayrolleeSchema),
   });
+  const {payUser} = useContext(DashboardContext);
   console.log(selectedPayrollee, '');
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async(data) => {
+    const res = await payUser(selectedPayrollee);
+    console.log({res});
   };
 
   return (
@@ -110,12 +122,12 @@ const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
               <FormControl>
                 <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value} disabled>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Payroll type" className="font-light" />
+                    <SelectValue placeholder={field.value} className="font-light" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Employees">Employees</SelectItem>
-                    <SelectItem value="Business">Business</SelectItem>
-                    <SelectItem value="Family & Friends">Family & Friends</SelectItem>
+                    <SelectItem value="employees">Employees</SelectItem>
+                    <SelectItem value="business">Business</SelectItem>
+                    <SelectItem value="family">Family & Friends</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>

@@ -1,17 +1,6 @@
 import { HOME_URL } from "../config/paths";
 import { CustomButton } from "./ui/custom-button";
-import { useConnect } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { useEffect } from "react";
-
 const Navbar = () => {
-  const { connect } = useConnect({
-      connector: new InjectedConnector(),
-  });
-  
-  useEffect(() => {
-      connect();
-  }, []);
 
   return (
     <div className="flex items-center w-full justify-between">

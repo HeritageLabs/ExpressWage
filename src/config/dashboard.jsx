@@ -90,8 +90,8 @@ export const dashboardConfig = {
       header: 'Deductions',
     },
     {
-      accessorKey: 'interval',
-      header: 'Interval',
+      accessorKey: 'lastPaid',
+      header: 'Last Paid',
     },
     {
       accessorKey: 'action',
