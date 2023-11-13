@@ -5,7 +5,7 @@ import {fetchBalance, fetchToken} from '@wagmi/core';
 import { getContract, parseEther } from "viem";
 
 export const DashboardContext = createContext({});
-const BASE_URL = 'http://localhost:4000' //'https://express-wage.onrender.com'
+const BASE_URL = 'https://express-wage.onrender.com'
 const cUSDMainnet = '0x765de816845861e75a25fca122bb6898b8b1282a';
 const cUSDTestnet = '0x874069fa1eb16d44d622f2e0ca25eea172369bc1';
 
@@ -130,6 +130,11 @@ export const DashboardProvider = ({ children }) => {
 
     const payUser = async (payrollee) => {
         try {
+            const balance = fetchBalance({address, token: cUSDTestnet});
+            if(payrollee.salary > balance) {
+                alert("Not enough balance!");
+                return false;
+            }
             const contract = getContract({
                 abi: erc20Abi,
                 address: cUSDTestnet,
