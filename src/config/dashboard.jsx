@@ -186,34 +186,34 @@ export const dashboardConfig = {
     }
   ]
 
-  export const payrolls = ({ setOpen }) => [
+  export const payrolls = ({ setOpen, navigate }) => [
     {
         id: 0,
         name: 'Business Payroll',
         href: BUSINESS_URL,
         icon: <Factory />,
-        onclick: () =>  null,
+        onclick: () =>  navigate(BUSINESS_URL),
     },
     {
         id: 1,
         name: 'Family & Friends Payroll',
         href: FAMILY_URL,
         icon: <Contact2 />,
-        onclick: () =>  null,
+        onclick: () =>  navigate(FAMILY_URL),
     },
     {
         id: 2,
         name: 'Employees Payroll',
         href: EMPLOYEE_URL,
         icon: <Briefcase />,
-        onclick: () =>  null,
+        onclick: () =>  navigate(EMPLOYEE_URL),
     },
     {
         id: 3,
         name: 'Add New payroll',
-        href: TRANSACTIONS_URL,
+        href: setOpen,
         icon: <PlusSquare />,
-        onclick: setOpen,
+        onclick: () => setOpen(true),
     },
 ];
 

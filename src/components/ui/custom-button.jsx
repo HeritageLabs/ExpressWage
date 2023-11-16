@@ -39,14 +39,14 @@ export const CustomButton = ({ btnLabel, className }) => {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} type="button" className={cn(className)}>
+                  <Button onClick={openConnectModal} type="button" className={cn(className, 'text-xs md:text-base')}>
                     {btnLabel || 'Connect Wallet'}
                   </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} type="button">
+                  <Button onClick={openChainModal} type="button" className="text-xs md:text-base">
                     Wrong network
                   </Button>
                 );
@@ -57,6 +57,7 @@ export const CustomButton = ({ btnLabel, className }) => {
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}
                     type="button"
+                    className="text-xs md:text-base"
                   >
                     {chain.hasIcon && (
                       <div
@@ -80,8 +81,8 @@ export const CustomButton = ({ btnLabel, className }) => {
                     )}
                     {chain.name}
                   </Button>
-                  <button onClick={openAccountModal} type="button">
-                    {account.displayName}
+                  <button onClick={openAccountModal} type="button" className="text-xs md:text-base md:flex items-center">
+                    <p>{account.displayName}</p>
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
                       : ''}

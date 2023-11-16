@@ -14,8 +14,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CustomButton } from './ui/custom-button';
 
 const MainNav = ({ setShowNav }) => {
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const renderTitle = () => {
     return pathname.split('/').slice(1)[0].replace('-', ' ');
@@ -33,7 +33,17 @@ const MainNav = ({ setShowNav }) => {
       <div className="flex items-center">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <CustomButton chainStatus="icon" showBalance={false} accountStatus="avatar"  />
+            <CustomButton
+              chainStatus="icon"
+              showBalance={{
+                smallScreen: false,
+                largeScreen: true,
+              }}
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>

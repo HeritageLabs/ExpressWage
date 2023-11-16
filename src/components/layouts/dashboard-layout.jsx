@@ -1,22 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SidebarNav from '../side-bar';
 import MainNav from '../main-nav';
 import { useNavigate } from 'react-router-dom';
 import { HOME_URL } from '../../config/paths';
 import { useAccount } from 'wagmi';
-import {
-  DashboardContext,
-} from '../../context/dashboard-context';
 
 const DashboardLayout = ({ children }) => {
   const [showNav, setShowNav] = useState(false);
   const [showLayout, setLayout] = useState(false);
   const { isConnected } = useAccount();
   const navigate = useNavigate();
-  const { payrollee } = useContext(DashboardContext);
 
   useEffect(() => {
     if (!isConnected) {

@@ -18,16 +18,16 @@ const Payrolls = () => {
 
   return (
     <DashboardLayout>
-      <div className="w-full flex gap-16 flex-wrap px-6 py-8">
-        {payrolls({ setOpen }).map((payroll) => (
+      <div className="w-full flex gap-6 md:gap-16 flex-wrap px-6 md:py-8">
+        {payrolls({ setOpen, navigate }).map((payroll) => (
           <div
-            className="border bg-[#FAFAFA] rounded-lg w-[29%] h-fit py-28 justify-center flex cursor-pointer hover:bg-white"
+            className="border bg-[#FAFAFA] rounded-lg w-[45%] md:w-[29%] md:h-fit py-12 md:py-28 justify-center flex cursor-pointer hover:bg-white"
             key={payroll.name}
-            onClick={() => navigate(payroll.href)}
+            onClick={payroll.onclick}
           >
-            <div className="mx-auto w-full text-center">
+            <div className="mx-auto w-full text-center px-3 md:px-0">
               <div className="w-full flex justify-center">{payroll.icon}</div>
-              <p className="mt-1">{payroll.name}</p>
+              <p className="md:mt-1 text-sm md:text-base mt-4">{payroll.name}</p>
             </div>
           </div>
         ))}
