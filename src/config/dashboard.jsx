@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Briefcase, Contact2, Factory, PlusSquare } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { ALL_PAYROLLEE_URL, BUSINESS_URL, EMPLOYEE_URL, FAMILY_URL, PAYROLL_URL, TRANSACTIONS_URL } from "./paths";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
 import PaySinglePayrolleForm from "../components/forms/pay-single-payrolle";
+import { useState } from "react";
 
 export const dashboardConfig = {
     sidebarNav: [
@@ -96,9 +98,10 @@ export const dashboardConfig = {
     {
       accessorKey: 'action',
       header: 'Action',
-      cell: ({ row }) => (
-
-        <Dialog>
+      cell: ({ row }) => {
+      const [open, setOpen] = useState(false);
+      return (
+        <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
         <Button className="bg-background text-primary font-light border border-slate-200 hover:bg-slate-50">Pay user</Button>
         </DialogTrigger>
@@ -109,10 +112,11 @@ export const dashboardConfig = {
               Confirm how much you want to pay {`${row.getValue("firstName")} ${row.getValue("lastName")}`}
             </DialogDescription>
           </DialogHeader>
-           <PaySinglePayrolleForm selectedPayrollee={row.original} />
+           <PaySinglePayrolleForm selectedPayrollee={row.original} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
       )
+      }
     },
   ];
 
@@ -186,28 +190,28 @@ export const dashboardConfig = {
     {
         id: 0,
         name: 'Business Payroll',
-        href: "#",
+        href: BUSINESS_URL,
         icon: <Factory />,
         onclick: () =>  null,
     },
     {
         id: 1,
         name: 'Family & Friends Payroll',
-        href: "#",
+        href: FAMILY_URL,
         icon: <Contact2 />,
         onclick: () =>  null,
     },
     {
         id: 2,
         name: 'Employees Payroll',
-        href: "#",
+        href: EMPLOYEE_URL,
         icon: <Briefcase />,
         onclick: () =>  null,
     },
     {
         id: 3,
         name: 'Add New payroll',
-        href: "#",
+        href: TRANSACTIONS_URL,
         icon: <PlusSquare />,
         onclick: setOpen,
     },

@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from './button';
+import { cn } from '../../lib/utils';
 
-export const CustomButton = () => {
+export const CustomButton = ({ btnLabel, className }) => {
 
   return (
     <ConnectButton.Custom>
@@ -37,8 +39,8 @@ export const CustomButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} type="button">
-                    Connect Wallet
+                  <Button onClick={openConnectModal} type="button" className={cn(className)}>
+                    {btnLabel || 'Connect Wallet'}
                   </Button>
                 );
               }

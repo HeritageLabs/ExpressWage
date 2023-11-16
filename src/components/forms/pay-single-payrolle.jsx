@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPayrolleeSchema } from "../../lib/validations/payroll-validation";
 import { Button } from "../ui/button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DashboardContext } from "../../context/dashboard-context";
 
 /**
@@ -30,7 +30,8 @@ import { DashboardContext } from "../../context/dashboard-context";
  * 
  */
 
-const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
+const PaySinglePayrolleForm = ({ selectedPayrollee, setOpen }) => {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     defaultValues: {
       firstName: selectedPayrollee.firstName,
@@ -45,10 +46,12 @@ const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
   const {payUser} = useContext(DashboardContext);
   console.log(selectedPayrollee, '');
 
-  const onSubmit = async(data) => {
-    const res = await payUser(selectedPayrollee);
+  const onSubmit = async () => {
+    const res = await payUser(selectedPayrollee, setLoading, setOpen);
     console.log({res});
   };
+
+  console.log(loading, '--> loading');
 
   return (
     <Form {...form}>
@@ -179,7 +182,7 @@ const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
           )}
         />
 
-        <Button className="w-full h-[48px]">Pay now</Button>
+        <Button className="w-full h-[48px]" disabled={loading} loading={loading} loadingText="Initiating payment...">Pay now</Button>
       </form>
     </Form>
   );

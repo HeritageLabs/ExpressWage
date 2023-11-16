@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import HomeLayout from "../../components/layouts/home-layout";
-import { Button } from "../../components/ui/button";
-import { PAYROLL_URL } from "../../config/paths";
-import { useAccount } from "wagmi";
+import { useNavigate } from 'react-router-dom';
+import HomeLayout from '../../components/layouts/home-layout';
+import { Button } from '../../components/ui/button';
+import { PAYROLL_URL } from '../../config/paths';
+import { useAccount } from 'wagmi';
+import { CustomButton } from '../../components/ui/custom-button';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -21,15 +22,34 @@ const Home = () => {
           </p>
 
           <div className="flex mt-5">
-            <Button className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary" onClick={() => { isConnected ? navigate(PAYROLL_URL) : null }}>
-              {isConnected ? 'Go to dashboard' : 'Get started'}
-            </Button>
-            <Button
-              className="h-[45px] px-8 ml-8"
-              onClick={() => { isConnected ? navigate(PAYROLL_URL) : null }}
-            >
-              {isConnected ? 'Continue' : 'Connect wallet'}
-            </Button>
+          {isConnected ? (
+              <Button
+              className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary"
+                onClick={() => navigate(PAYROLL_URL)}
+              >
+                Go to dashboard
+              </Button>
+            ) : (
+              <CustomButton
+                chainStatus="none"
+                btnLabel="Get started"
+                className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary"
+              />
+            )}
+
+            {isConnected ? (
+              <Button
+                className="h-[45px] px-8 ml-8"
+                onClick={() => navigate(PAYROLL_URL)}
+              >
+                Continue
+              </Button>
+            ) : (
+              <CustomButton
+                chainStatus="none"
+                className="h-[45px] px-8 ml-8"
+              />
+            )}
           </div>
         </div>
         <img src="/main-image.png" alt="pay roll" />
