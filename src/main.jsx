@@ -11,9 +11,11 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import {celo, celoAlfajores} from 'wagmi/chains';
+import { celo, celoAlfajores } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { DashboardProvider } from './context/dashboard-context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from "../src/components/ui/toaster";
 
 const { chains, publicClient } = configureChains(
   [celoAlfajores, celo],
@@ -32,11 +34,21 @@ const wagmiConfig = createConfig({
   connectors,
 });
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <BrowserRouter>
-        <WagmiConfig config={wagmiConfig}>
-    <DashboardProvider>
+    <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <WagmiConfig config={wagmiConfig}>
+        <DashboardProvider>
           <RainbowKitProvider
             chains={chains}
             theme={darkTheme({
@@ -47,10 +59,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               overlayBlur: 'small',
             })}
           >
-            <WebRoutes />
+              <WebRoutes />
+              <Toaster />
           </RainbowKitProvider>
-    </DashboardProvider>
-        </WagmiConfig>
-      </BrowserRouter>
+        </DashboardProvider>
+      </WagmiConfig>
+      </QueryClientProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

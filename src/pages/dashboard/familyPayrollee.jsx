@@ -9,6 +9,7 @@ import CreatePayrolleeForm from "../../components/forms/create-payrollee";
 
 const FamilyPayrollee = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [open, setOpen] = useState(false);
     return (
         <DashboardLayout>
         <div className="flex justify-end my-2">
@@ -33,7 +34,7 @@ const FamilyPayrollee = () => {
     </AlertDialog>
 
 
-                    <Dialog>
+                    <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className="bg-primary text-white hover:bg-primary">Add payrollee</Button>
             </DialogTrigger>

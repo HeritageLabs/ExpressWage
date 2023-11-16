@@ -1,8 +1,13 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import {fetchBalance, fetchToken} from '@wagmi/core';
 import { getContract, parseEther } from "viem";
+import instance from "../lib/axios-instance";
+import { useToast } from "../components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const DashboardContext = createContext({});
 const BASE_URL = 'https://express-wage.onrender.com'
@@ -48,44 +53,32 @@ export const erc20Abi = [
 ];
 
 export const DashboardProvider = ({ children }) => {
-
+    const { toast } = useToast();
     const [payrollees, setPayrollees] = useState([]);
     const {address} = useAccount();
-    const { data: walletClient, isError, isLoading } = useWalletClient()
+    const { data: walletClient} = useWalletClient()
     const publicClient = usePublicClient()
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-        console.log({walletClient})
-        if(walletClient) {
-            getPayrollees();
-        }
-    }, [walletClient]);
+    // useEffect(() => {
+    //     console.log({walletClient})
+    //     if(walletClient) {
+    //         getPayrollees();
+    //     }
+    // }, [walletClient]);
 
     const fetchData = async(endpoint) => {
-        const response = await fetch(`${BASE_URL}${endpoint}?signature=${address}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            console.error('Error fetching data:', response.statusText);
-        }
+        return instance.get(`${endpoint}?signature=${address}`);
     }
 
     const postData = async(endpoint, data) => {
         data.signature = address;
-        const response = await fetch(`${BASE_URL}${endpoint}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-        return response.ok
+        return instance.post(endpoint, data);
     }
 
     const putData = async(endpoint, data) => {
         data.signature = address;
-        const response = await fetch(`${BASE_URL}${endpoint}`, {
+        const response = await fetch(`${process.env.VITE_REACT_APP_BASE_URL}${endpoint}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -101,38 +94,36 @@ export const DashboardProvider = ({ children }) => {
         }
     }
 
-    const getPayrollees = async() => {
-        try {
-            const _parollees = await fetchData('/employees');
-            // console.log({_parollee: _parollees}); //
-            setPayrollees(
-                _parollees.map((payrollee) => {
-                    payrollee.lastPaid = new Date(payrollee.lastPaid).toLocaleDateString('en-Gb', {dateStyle: 'long'});
-                    return payrollee;
-                })
-            );
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
+    // const getPayrollees = async() => {
+    //     try {
+    //         const _parollees = await fetchData('/employees');
+    //         // console.log({_parollee: _parollees}); //
+    //         setPayrollees(
+    //             _parollees.map((payrollee) => {
+    //                 payrollee.lastPaid = new Date(payrollee.lastPaid).toLocaleDateString('en-Gb', {dateStyle: 'long'});
+    //                 return payrollee;
+    //             })
+    //         );
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // }
 
-    const addPayrollee = async(payrollee) => {
-        try {
-            if(await postData('/employee', payrollee)) {
-                getPayrollees();
-                return true;
-            }
-            return false;
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
+    // const addPayrollee = (payrollee) => {
+    //     postData('/employee', payrollee)
+    // }
 
-    const payUser = async (payrollee) => {
+    const payUser = async (payrollee, setLoading, setOpen) => {
         try {
+            setLoading(true);
             const balance = fetchBalance({address, token: cUSDTestnet});
             if(payrollee.salary > balance) {
-                alert("Not enough balance!");
+                toast({
+                    title: 'Uh oh! Error occurred',
+                    description: "Not enough balance!",
+                    variant: 'destructive',
+                  });
+                setLoading(false);
                 return false;
             }
             const contract = getContract({
@@ -142,14 +133,21 @@ export const DashboardProvider = ({ children }) => {
                 walletClient,
             });
             const amount = parseEther((payrollee.salary - payrollee.deductions).toString());
-            console.log({amount});
             const hash = await contract.write.transfer([payrollee.walletAddress, amount]);
             payrollee.lastPaid = new Date().toISOString();
             updatePayrolleeLastPaid(payrollee);
             await publicClient.waitForTransactionReceipt({hash});
+            toast({
+                title: 'Holla 🎉',
+                description: `Money on it's way to ${payrollee.firstName}`,
+              });
+            setLoading(false);
+            setOpen(false);
             return true;
         } catch (error) {
             console.error('Error:', error);
+            setLoading(false);
+            setOpen(false);
             return false;
         } 
     }
@@ -163,25 +161,24 @@ export const DashboardProvider = ({ children }) => {
     }
 
     const updatePayrolleeLastPaid = async(payrollee) => {
-        console.log({payrollee});
         try {
             await postData(`/employee/paid/${payrollee._id}`, payrollee);
-            getPayrollees();
+            queryClient.invalidateQueries('allPayrollee');
         } catch (error) {
             console.error('Error:', error);
         }
     }
 
-    const updatePayrollee = async(payrollee) => {
-        try {
-            await putData(`/employee/${payrollee._id}`, payrollee);
-            getPayrollees();
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
+    // const updatePayrollee = async(payrollee) => {
+    //     try {
+    //         await putData(`/employee/${payrollee._id}`, payrollee);
+    //         getPayrollees();
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // }
     
-    const value = { payrollees, addPayrollee, payUser };
+    const value = { payUser, postData, fetchData };
 
     return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>
 }
