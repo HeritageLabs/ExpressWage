@@ -43,11 +43,11 @@ const PaySinglePayrolleForm = ({ selectedPayrollee }) => {
     resolver: yupResolver(createPayrolleeSchema),
   });
   const {payUser} = useContext(DashboardContext);
-  console.log(selectedPayrollee, '');
+  // console.log(selectedPayrollee, '');
 
   const onSubmit = async(data) => {
     const res = await payUser(selectedPayrollee);
-    console.log({res});
+    // console.log({res});
   };
 
   return (

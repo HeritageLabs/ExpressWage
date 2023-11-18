@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/dashboard-layout";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../components/ui/alert-dialog";
 import { Button } from "../../components/ui/button";
 import DataTable from "../../components/data-table";
-import { allPayrollColumns, allPayrolls } from "../../config/dashboard";
+import { allPayrollColumns} from "../../config/dashboard";
 import CreatePayrolleeForm from "../../components/forms/create-payrollee";
+import { DashboardContext } from "../../context/dashboard-context";
 
 const BusinessPayrollee = () => {
-    const [currentPage, setCurrentPage] = useState(1);
+    const {payrollees} = useContext(DashboardContext);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [businessPayrollees, setBusinessPayrollees] = useState([]);
+
+    useEffect(() => {
+      if(payrollees) {
+        const _businessPayrollees = payrollees.filter((p) => p.type = 'business');
+        setBusinessPayrollees(_businessPayrollees);
+      }
+    }, [payrollees]);
+
+
     return (
         <DashboardLayout>
         <div className="flex justify-end my-2">
@@ -52,12 +64,12 @@ const BusinessPayrollee = () => {
             </Dialog>
                     
         </div>
-                    <DataTable
+        <DataTable
           columns={allPayrollColumns}
-          data={allPayrolls.slice(0, 4)}
+          data={businessPayrollees.slice(currentPage, currentPage + 8)}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          pageSize={1}
+          pageSize={8}
           dataLength={1}
         />
     </DashboardLayout>
