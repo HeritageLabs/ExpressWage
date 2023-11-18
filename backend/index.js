@@ -18,12 +18,13 @@ app.get('/', async(req, res) => {
 app.get('/employees', auth, async (req, res) => {
   try {
     const userWalletAddress = req.user
+    const type = req.query.type
     let user = await User.findOne({walletAddress: userWalletAddress})  
     if(!user) {
       user = await User.create({walletAddress: userWalletAddress, employees: []})
     }
     const employees = user.employees
-    res.status(200).json(employees)
+    res.status(200).json(type ? employees.filter((e) => e.type = type) : employees)
   } catch (error) {
     console.error({error})
     res.status(500).json({message: 'Error fetching employees'})

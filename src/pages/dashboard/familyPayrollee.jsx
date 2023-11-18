@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import DashboardLayout from '../../components/layouts/dashboard-layout';
 import {
   Dialog,
@@ -21,12 +21,23 @@ import {
 } from '../../components/ui/alert-dialog';
 import { Button } from '../../components/ui/button';
 import DataTable from '../../components/data-table';
-import { allPayrollColumns, allPayrolls } from '../../config/dashboard';
+import { allPayrollColumns } from '../../config/dashboard';
 import CreatePayrolleeForm from '../../components/forms/create-payrollee';
+import { DashboardContext } from '../../context/dashboard-context';
+import { Loader2 } from 'lucide-react';
 
 const FamilyPayrollee = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const { payrollees, isLoading } = useContext(DashboardContext);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [familyPayrollees, setFamilyPayrollees] = useState([]);
+
+  useEffect(() => {
+    if (payrollees) {
+      const _familyPayrollees = payrollees.filter((p) => p.type === 'family');
+      setFamilyPayrollees(_familyPayrollees);
+    }
+  }, [payrollees]);
   return (
     <DashboardLayout>
       <div className="flex justify-end my-2">
@@ -71,14 +82,20 @@ const FamilyPayrollee = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <DataTable
-        columns={allPayrollColumns}
-        data={allPayrolls.slice(0, 4)}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        pageSize={1}
-        dataLength={1}
-      />
+      {isLoading ? (
+        <div className="flex w-full h-[70vh] justify-center items-center">
+          <Loader2 className="mr-2 h-20 w-20 animate-spin" />{' '}
+        </div>
+      ) : (
+        <DataTable
+          columns={allPayrollColumns}
+          data={familyPayrollees.slice(currentPage, currentPage + 8)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          pageSize={8}
+          dataLength={1}
+        />
+      )}
     </DashboardLayout>
   );
 };
