@@ -21,49 +21,50 @@ const BusinessPayrollee = () => {
     }, [payrollees]);
 
 
-    return (
-        <DashboardLayout>
-        <div className="flex justify-end my-2">
-
+  return (
+    <DashboardLayout>
+      <div className="flex justify-end my-2">
         <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button className="bg-background text-primary font-light border border-slate-200 hover:bg-slate-50 mr-4">Pay all payrollee</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription className="font-light">
-            This action cannot be undone. This will credit all Business Payrollee wallet
-            account and update your account balance on the servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className="bg-background text-primary font-light border border-slate-200 hover:bg-slate-50 mr-4">
+              Pay all payrollee
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription className="font-light">
+                This action cannot be undone. This will credit all Business
+                Payrollee wallet account and update your account balance on the
+                servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
-
-                    <Dialog>
-            <DialogTrigger asChild>
-                <Button className="bg-primary text-white hover:bg-primary">Add payrollee</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[525px]">
-                <DialogHeader>
-                <DialogTitle>Add a new Payrollee</DialogTitle>
-                <DialogDescription className="font-extralight">
-                    Create a new payroll user here with their valid credentials.
-                </DialogDescription>
-                </DialogHeader>
-                <div className="max-h-[80vh] overflow-scroll px-2">
-                <CreatePayrolleeForm />
-                </div>
-
-            </DialogContent>
-            </Dialog>
-                    
-        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="bg-primary text-white hover:bg-primary">
+              Add payrollee
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[525px]">
+            <DialogHeader>
+              <DialogTitle>Add a new Payrollee</DialogTitle>
+              <DialogDescription className="font-extralight">
+                Create a new payroll user here with their valid credentials.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="max-h-[80vh] overflow-scroll px-2">
+              <CreatePayrolleeForm />
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
         <DataTable
           columns={allPayrollColumns}
           data={businessPayrollees.slice(currentPage, currentPage + 8)}
@@ -73,7 +74,7 @@ const BusinessPayrollee = () => {
           dataLength={1}
         />
     </DashboardLayout>
-    )
+  );
 };
 
-export default BusinessPayrollee
+export default BusinessPayrollee;

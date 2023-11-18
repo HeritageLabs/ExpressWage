@@ -5,9 +5,9 @@ const Navbar = () => {
   return (
     <div className="flex items-center w-full justify-between">
       <a href={HOME_URL}>
-        <img src="/logo.svg" alt="logo" className="w-[180px]" />
+        <img src="/logo.svg" alt="logo" className="w-[120px] md:w-[180px]" />
       </a>
-      <div className="w-[20%] justify-between flex items-center">
+      <div className="md:w-[20%] hidden justify-between md:flex items-center">
         <button className="hover:text-secondary font-light">About us</button>
         <button className="hover:text-secondary font-light">
           How to get started

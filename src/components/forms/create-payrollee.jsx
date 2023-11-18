@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Input } from "../ui/input";
 import {
   Select,
@@ -20,6 +21,8 @@ import { createPayrolleeSchema } from "../../lib/validations/payroll-validation"
 import { Button } from "../ui/button";
 import { useContext } from "react";
 import { DashboardContext } from "../../context/dashboard-context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "../ui/use-toast"
 
 /**
  * TODO: 
@@ -29,7 +32,9 @@ import { DashboardContext } from "../../context/dashboard-context";
  * 
  */
 
-const CreatePayrolleeForm = () => {
+const CreatePayrolleeForm = ({ setOpen }) => {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
   const form = useForm({
     defaultValues: {
       firstName: "",
@@ -41,11 +46,25 @@ const CreatePayrolleeForm = () => {
     },
     resolver: yupResolver(createPayrolleeSchema),
   });
-  const {addPayrollee} = useContext(DashboardContext);
+  const { postData } = useContext(DashboardContext);
 
-  const onSubmit = async (payrollee) => {
-    const res = await addPayrollee(payrollee);
-    console.log({res});
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (payload) => postData('/employee', payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries('allPayrollee');
+      setOpen(false);
+    },
+    onError: (error) => {
+      toast({
+        title: 'Uh oh! Error occurred',
+        description: error?.response?.data?.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const onSubmit = (payrollee) => {
+    mutate(payrollee)
   };
 
   return (
@@ -62,6 +81,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee First Name"
                   invalid={fieldState.invalid}
                   className="font-light"
+                  disabled={isLoading}
                   {...field}
                 />
               </FormControl>
@@ -81,6 +101,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee Last Name"
                   invalid={fieldState.invalid}
                   className="font-light"
+                  disabled={isLoading}
                   {...field}
                 />
               </FormControl>
@@ -100,6 +121,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee Wallet Address"
                   invalid={fieldState.invalid}
                   className="font-light"
+                  disabled={isLoading}
                   {...field}
                 />
               </FormControl>
@@ -115,7 +137,7 @@ const CreatePayrolleeForm = () => {
             <FormItem>
               <FormLabel className="text-black">Type</FormLabel>
               <FormControl>
-                <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value} disabled={isLoading}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Payroll type" className="font-light" />
                   </SelectTrigger>
@@ -142,6 +164,7 @@ const CreatePayrolleeForm = () => {
                   placeholder="Payrollee salary"
                   invalid={fieldState.invalid}
                   type="number"
+                  disabled={isLoading}
                   className="font-light"
                   {...field}
                 />
@@ -164,6 +187,7 @@ const CreatePayrolleeForm = () => {
                   invalid={fieldState.invalid}
                   type="number"
                   className="font-light"
+                  disabled={isLoading}
                   {...field}
                 />
               </FormControl>
@@ -172,7 +196,7 @@ const CreatePayrolleeForm = () => {
           )}
         />
 
-        <Button className="w-full h-[48px]">Create Payrollee</Button>
+        <Button className="w-full h-[48px]" loading={isLoading} disabled={isLoading}>Create Payrollee</Button>
       </form>
     </Form>
   );

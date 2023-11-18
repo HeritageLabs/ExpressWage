@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from './button';
+import { cn } from '../../lib/utils';
 
-export const CustomButton = () => {
+export const CustomButton = ({ btnLabel, className }) => {
 
   return (
     <ConnectButton.Custom>
@@ -37,14 +39,14 @@ export const CustomButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} type="button">
-                    Connect Wallet
+                  <Button onClick={openConnectModal} type="button" className={cn(className, 'text-xs md:text-base')}>
+                    {btnLabel || 'Connect Wallet'}
                   </Button>
                 );
               }
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} type="button">
+                  <Button onClick={openChainModal} type="button" className="text-xs md:text-base">
                     Wrong network
                   </Button>
                 );
@@ -55,6 +57,7 @@ export const CustomButton = () => {
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}
                     type="button"
+                    className="text-xs md:text-base"
                   >
                     {chain.hasIcon && (
                       <div
@@ -78,8 +81,8 @@ export const CustomButton = () => {
                     )}
                     {chain.name}
                   </Button>
-                  <button onClick={openAccountModal} type="button">
-                    {account.displayName}
+                  <button onClick={openAccountModal} type="button" className="text-xs md:text-base md:flex items-center">
+                    <p>{account.displayName}</p>
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
                       : ''}

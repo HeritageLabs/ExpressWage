@@ -41,7 +41,7 @@ const DataTable = ({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className={cn(headerClassName, "font-normal")}>
+                    <TableHead key={header.id} className={cn(headerClassName, "font-normal text-xs md:text-base")}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -61,7 +61,7 @@ const DataTable = ({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => handleClickRow ? handleClickRow(row) : null}
-                  className={handleClickRow && "cursor-pointer"}
+                  className={`${handleClickRow && 'cursor-pointer'} text-xs md:text-base`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="capitalize font-extralight">
