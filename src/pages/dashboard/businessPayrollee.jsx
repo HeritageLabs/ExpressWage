@@ -1,25 +1,43 @@
-import { useContext, useEffect, useState } from "react";
-import DashboardLayout from "../../components/layouts/dashboard-layout";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../components/ui/alert-dialog";
-import { Button } from "../../components/ui/button";
-import DataTable from "../../components/data-table";
-import { allPayrollColumns} from "../../config/dashboard";
-import CreatePayrolleeForm from "../../components/forms/create-payrollee";
-import { DashboardContext } from "../../context/dashboard-context";
+import { useContext, useEffect, useState } from 'react';
+import DashboardLayout from '../../components/layouts/dashboard-layout';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../../components/ui/alert-dialog';
+import { Button } from '../../components/ui/button';
+import DataTable from '../../components/data-table';
+import { allPayrollColumns } from '../../config/dashboard';
+import CreatePayrolleeForm from '../../components/forms/create-payrollee';
+import { DashboardContext } from '../../context/dashboard-context';
+import { Loader2 } from 'lucide-react';
 
 const BusinessPayrollee = () => {
-    const {payrollees} = useContext(DashboardContext);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [businessPayrollees, setBusinessPayrollees] = useState([]);
+  const { payrollees, isLoading } = useContext(DashboardContext);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [businessPayrollees, setBusinessPayrollees] = useState([]);
 
-    useEffect(() => {
-      if(payrollees) {
-        const _businessPayrollees = payrollees.filter((p) => p.type = 'business');
-        setBusinessPayrollees(_businessPayrollees);
-      }
-    }, [payrollees]);
-
+  useEffect(() => {
+    if (payrollees) {
+      const _businessPayrollees = payrollees.filter(
+        (p) => p.type === 'business');
+      setBusinessPayrollees(_businessPayrollees);
+    }
+  }, [payrollees]);
 
   return (
     <DashboardLayout>
@@ -65,6 +83,11 @@ const BusinessPayrollee = () => {
           </DialogContent>
         </Dialog>
       </div>
+      {isLoading ? (
+        <div className="flex w-full h-[70vh] justify-center items-center">
+          <Loader2 className="mr-2 h-20 w-20 animate-spin" />{' '}
+        </div>
+      ) : (
         <DataTable
           columns={allPayrollColumns}
           data={businessPayrollees.slice(currentPage, currentPage + 8)}
@@ -73,6 +96,7 @@ const BusinessPayrollee = () => {
           pageSize={8}
           dataLength={1}
         />
+      )}
     </DashboardLayout>
   );
 };

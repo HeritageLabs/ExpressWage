@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useState } from 'react';
 import DataTable from '../../components/data-table';
 import {
@@ -13,33 +14,12 @@ import { allPayrollColumns } from '../../config/dashboard';
 import { Button } from '../../components/ui/button';
 import CreatePayrolleeForm from '../../components/forms/create-payrollee';
 import { DashboardContext } from '../../context/dashboard-context';
-import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
-import { useToast } from '../../components/ui/use-toast';
 
 const AllPayrollee = () => {
-  const { toast } = useToast()
-  const { fetchData } = useContext(DashboardContext);
+  const { payrollees, isLoading } = useContext(DashboardContext);
   const [open, setOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const { data, isError, error, isLoading } = useQuery({
-    queryKey: ['allPayrollee'],
-    queryFn: () => fetchData('/employees'),
-    keepPreviousData: true,
-  });
-
-  const payrollees = data?.data?.map((payrollee) => ({
-    ...payrollee, lastPaid: payrollee.lastPaid === null ? '-' : new Date(payrollee.lastPaid).toLocaleDateString('en-Gb', {dateStyle: 'long'})
-  }));
-
-  if (isError) {
-    toast({
-      title: 'Uh oh! Error occurred',
-      description: error?.response?.data?.message,
-      variant: 'destructive',
-    });
-  }
 
   return (
     <DashboardLayout>
@@ -63,7 +43,11 @@ const AllPayrollee = () => {
           </DialogContent>
         </Dialog>
       </div>
-      {isLoading ? <div className='flex w-full h-[70vh] justify-center items-center'><Loader2 className="mr-2 h-20 w-20 animate-spin" /> </div> : (
+      {isLoading ? (
+        <div className="flex w-full h-[70vh] justify-center items-center">
+          <Loader2 className="mr-2 h-20 w-20 animate-spin" />{' '}
+        </div>
+      ) : (
         <DataTable
           columns={allPayrollColumns}
           data={payrollees}
