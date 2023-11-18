@@ -7,11 +7,11 @@ import BusinessPayrollee from "../pages/dashboard/businessPayrollee";
 import FamilyPayrollee from "../pages/dashboard/familyPayrollee";
 import EmployeePayrollee from "../pages/dashboard/employeesPayrollee";
 import TransactionsPage from "../pages/dashboard/transactions";
-import { Suspense } from "react";
-import PageLoader from "../components/loading-page";
+// import { Suspense } from "react";
+// import PageLoader from "../components/loading-page";
 
 const WebRoutes = () => (
-  <Suspense fallback={<PageLoader />}>
+  // <Suspense fallback={<PageLoader />}>
     <Routes>
       <Route index path={HOME_URL} element={<Home />} />
       <Route path={ALL_PAYROLLEE_URL} element={<AllPayrollee />} />
@@ -21,7 +21,7 @@ const WebRoutes = () => (
       <Route path={EMPLOYEE_URL} element={<EmployeePayrollee />} />
       <Route path={TRANSACTIONS_URL} element={<TransactionsPage />} />
     </Routes>
-  </Suspense>
+  // </Suspense>
 );
 
 export default WebRoutes;

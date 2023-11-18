@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { X } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { dashboardConfig } from '../config/dashboard';
 
 const SidebarNav = ({ setShowNav, showNav }) => {
@@ -18,7 +18,7 @@ const SidebarNav = ({ setShowNav, showNav }) => {
         <X color="#FFFFFF" className="sm:block md:hidden" onClick={() => setShowNav(false)} />
       </div>
       {dashboardConfig.sidebarNav.map((item) => (
-        <a href={item.url} key={item.title} onClick={() => setShowNav(false)}>
+        <Link to={item.url} key={item.title}>
           <p
             className={`text-sm py-4 my-2 px-6 cursor-pointer mx-[9px] hover:font-medium trans rounded ${
               pathname.startsWith(item.url)
@@ -28,7 +28,7 @@ const SidebarNav = ({ setShowNav, showNav }) => {
           >
             {item.title}
           </p>
-        </a>
+        </Link>
       ))}
     </nav>
   );
