@@ -49,7 +49,7 @@ const AllPayrollee = () => {
         </div>
       ) : (
         <DataTable
-          columns={allPayrollColumns}
+          columns={allPayrollColumns || []}
           data={payrollees}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

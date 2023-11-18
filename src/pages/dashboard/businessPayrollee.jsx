@@ -89,7 +89,7 @@ const BusinessPayrollee = () => {
         </div>
       ) : (
         <DataTable
-          columns={allPayrollColumns}
+          columns={allPayrollColumns || []}
           data={businessPayrollees.slice(currentPage, currentPage + 8)}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
