@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect, useState } from 'react';
 import DataTable from '../../components/data-table';
 import {
   Dialog,
@@ -18,7 +19,7 @@ import { Loader2 } from 'lucide-react';
 import { useToast } from '../../components/ui/use-toast';
 
 const AllPayrollee = () => {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const { fetchData } = useContext(DashboardContext);
   const [open, setOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,16 +31,24 @@ const AllPayrollee = () => {
   });
 
   const payrollees = data?.data?.map((payrollee) => ({
-    ...payrollee, lastPaid: payrollee.lastPaid === null ? '-' : new Date(payrollee.lastPaid).toLocaleDateString('en-Gb', {dateStyle: 'long'})
+    ...payrollee,
+    lastPaid:
+      payrollee.lastPaid === null
+        ? '-'
+        : new Date(payrollee.lastPaid).toLocaleDateString('en-Gb', {
+            dateStyle: 'long',
+          }),
   }));
 
-  if (isError) {
-    toast({
-      title: 'Uh oh! Error occurred',
-      description: error?.response?.data?.message,
-      variant: 'destructive',
-    });
-  }
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: 'Uh oh! Error occurred',
+        description: error?.response?.data?.message,
+        variant: 'destructive',
+      });
+    }
+  }, [isError]);
 
   return (
     <DashboardLayout>
@@ -63,7 +72,11 @@ const AllPayrollee = () => {
           </DialogContent>
         </Dialog>
       </div>
-      {isLoading ? <div className='flex w-full h-[70vh] justify-center items-center'><Loader2 className="mr-2 h-20 w-20 animate-spin" /> </div> : (
+      {isLoading ? (
+        <div className="flex w-full h-[70vh] justify-center items-center">
+          <Loader2 className="mr-2 h-20 w-20 animate-spin" />{' '}
+        </div>
+      ) : (
         <DataTable
           columns={allPayrollColumns}
           data={payrollees}
