@@ -15,11 +15,11 @@ const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isConnected) {
+    if (isConnected) {
+      setLayout(true);
+    } else {
       setLayout(false);
       navigate(HOME_URL);
-    } else {
-      setLayout(true);
     }
   }, [isConnected]);
 

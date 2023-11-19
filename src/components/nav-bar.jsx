@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { HOME_URL } from "../config/paths";
 import { CustomButton } from "./ui/custom-button";
-const Navbar = () => {
 
+const Navbar = () => {
   return (
     <div className="flex items-center w-full justify-between">
       <a href={HOME_URL}>

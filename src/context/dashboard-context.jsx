@@ -3,12 +3,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from 'react';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { useAccount, useConnect, usePublicClient, useWalletClient } from 'wagmi';
 import { fetchBalance, fetchToken } from '@wagmi/core';
 import { getContract, parseEther } from 'viem';
 import instance from '../lib/axios-instance';
 import { useToast } from '../components/ui/use-toast';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import { celo } from "viem/chains";
 
 export const DashboardContext = createContext({});
 const BASE_URL = 'https://express-wage.onrender.com';
@@ -56,17 +58,20 @@ export const erc20Abi = [
 export const DashboardProvider = ({ children }) => {
   const { toast } = useToast();
 //   const [payrollees, setPayrollees] = useState(null);
-  const { address } = useAccount();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const queryClient = useQueryClient();
 
-  // useEffect(() => {
-  //     console.log({walletClient})
-  //     if(walletClient) {
-  //         getPayrollees();
-  //     }
-  // }, [walletClient]);
+  const {isConnected, address} = useAccount();
+
+  const { connect, connectors } = useConnect({
+      connector: new InjectedConnector({chains: [celo], options: {shimDisconnect: false}}),
+  });
+
+  
+  useEffect(() => {
+    connect();
+  }, []);
 
   const { data, isError, error, isLoading } = useQuery({
     queryKey: ['allPayrollee'],
@@ -82,7 +87,7 @@ export const DashboardProvider = ({ children }) => {
         : new Date(payrollee.lastPaid).toLocaleDateString('en-Gb', {
             dateStyle: 'long',
           }),
-  }));
+  })) || [];
 
   useEffect(() => {
     if (isError) {
@@ -146,7 +151,7 @@ export const DashboardProvider = ({ children }) => {
   const payUser = async (payrollee, setLoading, setOpen) => {
     try {
       setLoading(true);
-      const balance = fetchBalance({ address, token: cUSDTestnet });
+      const balance = fetchBalance({ address: address, token: cUSDMainnet });
       if (payrollee.salary > balance) {
         toast({
           title: 'Uh oh! Error occurred',
@@ -158,7 +163,7 @@ export const DashboardProvider = ({ children }) => {
       }
       const contract = getContract({
         abi: erc20Abi,
-        address: cUSDTestnet,
+        address: cUSDMainnet,
         publicClient,
         walletClient,
       });

@@ -11,14 +11,16 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { celo, celoAlfajores } from 'wagmi/chains';
+import { celo} from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { DashboardProvider } from './context/dashboard-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from "../src/components/ui/toaster";
+import { InjectedConnector } from 'wagmi/connectors/injected';
+
 
 const { chains, publicClient } = configureChains(
-  [celoAlfajores, celo],
+  [celo],
   [publicProvider()]
 );
 
@@ -28,10 +30,20 @@ const { connectors } = getDefaultWallets({
   chains,
 });
 
+const allConnectors = () => {
+  return [ new InjectedConnector({
+      chains,
+      options: {
+        name: 'Injected',
+        shimDisconnect: false,
+      },
+    }), ...connectors()]
+}
+
 const wagmiConfig = createConfig({
   autoConnect: true,
   publicClient,
-  connectors,
+  connectors: allConnectors,
 });
 
 const queryClient = new QueryClient({

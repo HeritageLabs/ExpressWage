@@ -5,9 +5,11 @@ import { PAYROLL_URL } from '../../config/paths';
 import { useAccount } from 'wagmi';
 import { CustomButton } from '../../components/ui/custom-button';
 
+
 const Home = () => {
   const navigate = useNavigate();
   const { isConnected } = useAccount();
+  
   return (
     <HomeLayout>
       <div className="grid md:grid-cols-2 gap-16 mt-8 items-center px-6 md:px-24 py-4">
@@ -22,7 +24,7 @@ const Home = () => {
           </p>
 
           <div className="flex mt-5 md:justify-start justify-center">
-            {isConnected ? (
+            {isConnected || (window.ethereum && window.ethereum.isMiniPay) ? (
               <Button
                 className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary"
                 onClick={() => navigate(PAYROLL_URL)}
@@ -37,7 +39,7 @@ const Home = () => {
               />
             )}
 
-            {isConnected ? (
+            {isConnected || (window.ethereum && window.ethereum.isMiniPay)? (
               <Button
                 className="h-[45px] px-8 ml-8"
                 onClick={() => navigate(PAYROLL_URL)}
