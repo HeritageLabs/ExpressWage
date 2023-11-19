@@ -76,6 +76,7 @@ export const DashboardProvider = ({ children }) => {
   const { data, isError, error, isLoading } = useQuery({
     queryKey: ['allPayrollee'],
     queryFn: () => fetchData('/employees'),
+    enabled: isConnected,
     keepPreviousData: true,
   });
 
