@@ -8,13 +8,13 @@ const hre = require("hardhat");
 
 async function main() {
   const cUSDMainnet = '0x765de816845861e75a25fca122bb6898b8b1282a';
-  const cUSDTestnet = '0x874069fa1eb16d44d622f2e0ca25eea172369bc1';
+  const [owner] = await hre.ethers.getSigners()
 
-  const expresswage = await hre.ethers.deployContract("ExpressWage", [cUSDTestnet]);
+  const expresswage = await hre.ethers.deployContract("PayMultiple", [cUSDMainnet, owner]);
 
   await expresswage.waitForDeployment();
 
-  console.log(`ExpressWage deployed to ${expresswage.target}`);
+  console.log(`PayMultiple contract deployed to ${expresswage.target}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

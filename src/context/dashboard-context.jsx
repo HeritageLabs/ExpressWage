@@ -13,9 +13,8 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { celo } from "viem/chains";
 
 export const DashboardContext = createContext({});
-const BASE_URL = 'https://express-wage.onrender.com';
+const payMultipleAddress = '0xd086dAB59F3d183b77c14E6FbbacC421adCD1634';
 const cUSDMainnet = '0x765de816845861e75a25fca122bb6898b8b1282a';
-const cUSDTestnet = '0x874069fa1eb16d44d622f2e0ca25eea172369bc1';
 
 export const erc20Abi = [
   {
@@ -62,9 +61,9 @@ export const DashboardProvider = ({ children }) => {
   const publicClient = usePublicClient();
   const queryClient = useQueryClient();
 
-  const {isConnected, address} = useAccount();
+  const {address} = useAccount();
 
-  const { connect, connectors } = useConnect({
+  const { connect} = useConnect({
       connector: new InjectedConnector({chains: [celo], options: {shimDisconnect: false}}),
   });
 
