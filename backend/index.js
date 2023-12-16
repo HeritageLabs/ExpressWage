@@ -5,6 +5,7 @@ const auth = require('./middleware/auth')
 const User = require('./model/user')
 const Employee = require('./model/employee')
 const cors = require('cors')
+const Transaction = require("./model/transaction")
 
 const port = process.env.PORT || 4000 
 const app = express()
@@ -85,8 +86,11 @@ app.post('/employee/paid/:employeeId', auth, async (req, res) => {
     }
 
     const updatedEmployee = await Employee.findByIdAndUpdate(employeeId, {lastPaid: new Date().toUTCString()}, { new: true });
-
     user.employees[employeeIndex] = updatedEmployee;
+
+    const newTransaction = await Transaction.create({firstName: updatedEmployee.firstName, lastName: updatedEmployee.lastName, walletAddress: updatedEmployee.walletAddress, amount: updatedEmployee.salary, status: "SUCCESS"}); //Employee.create(employeeData)
+    user.transactions.unshift(newTransaction);
+
     await user.save();
 
     res.status(200).json({ message: 'Employee updated successfully', employee: updatedEmployee });
@@ -211,6 +215,21 @@ app.get('/employee/:employeeId', auth, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error getting employee' });
+  }
+});
+
+app.get('/transactions', auth, async (req, res) => {
+  try {
+    const userWalletAddress = req.user;
+    let user = await User.findOne({walletAddress: userWalletAddress});
+    if(!user) {
+      user = await User.create({walletAddress: userWalletAddress, transactions: []});
+    }
+    const transactions = user.transactions;
+    res.status(200).json(transactions);
+  } catch (error) {
+    console.error({error});
+    res.status(500).json({message: 'Error fetching transactions'});
   }
 });
 
