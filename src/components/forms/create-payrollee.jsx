@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { Input } from "../ui/input";
+import { Input } from '../ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from '../ui/select';
 import {
   FormControl,
   FormField,
@@ -14,22 +14,22 @@ import {
   Form,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createPayrolleeSchema } from "../../lib/validations/payroll-validation";
-import { Button } from "../ui/button";
-import { useContext } from "react";
-import { DashboardContext } from "../../context/dashboard-context";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../ui/use-toast"
+} from '../ui/form';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { createPayrolleeSchema } from '../../lib/validations/payroll-validation';
+import { Button } from '../ui/button';
+import { useContext } from 'react';
+import { DashboardContext } from '../../context/dashboard-context';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '../ui/use-toast';
 
 /**
- * TODO: 
- * 
+ * TODO:
+ *
  * - Add loading state to Create button
  * - Clear state and close dialog after creating payrollee
- * 
+ *
  */
 
 const CreatePayrolleeForm = ({ setOpen }) => {
@@ -37,12 +37,12 @@ const CreatePayrolleeForm = ({ setOpen }) => {
   const { toast } = useToast();
   const form = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      walletAddress: "",
-      type: "",
-      deductions: "",
-      salary: "",
+      firstName: '',
+      lastName: '',
+      walletAddress: '',
+      type: '',
+      deductions: '',
+      salary: '',
     },
     resolver: yupResolver(createPayrolleeSchema),
   });
@@ -64,7 +64,7 @@ const CreatePayrolleeForm = ({ setOpen }) => {
   });
 
   const onSubmit = (payrollee) => {
-    mutate(payrollee)
+    mutate(payrollee);
   };
 
   return (
@@ -129,7 +129,7 @@ const CreatePayrolleeForm = ({ setOpen }) => {
             </FormItem>
           )}
         />
-
+        
         <FormField
           control={form.control}
           name="type"
@@ -137,9 +137,18 @@ const CreatePayrolleeForm = ({ setOpen }) => {
             <FormItem>
               <FormLabel className="text-black">Type</FormLabel>
               <FormControl>
-                <Select invalid={fieldState.invalid} {...field} onValueChange={field.onChange} defaultValue={field.value} disabled={isLoading}>
+                <Select
+                  invalid={fieldState.invalid}
+                  {...field}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isLoading}
+                >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Payroll type" className="font-light" />
+                    <SelectValue
+                      placeholder="Payroll type"
+                      className="font-light"
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="employees">Employees</SelectItem>
@@ -153,12 +162,14 @@ const CreatePayrolleeForm = ({ setOpen }) => {
           )}
         />
 
-<FormField
+        <FormField
           control={form.control}
           name="salary"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel className="text-black">Payrollee salary (USD)</FormLabel>
+              <FormLabel className="text-black">
+                Payrollee salary (USD)
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Payrollee salary"
@@ -174,13 +185,14 @@ const CreatePayrolleeForm = ({ setOpen }) => {
           )}
         />
 
-
-<FormField
+        <FormField
           control={form.control}
           name="deductions"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel className="text-black">Payrollee Deductions (USD)</FormLabel>
+              <FormLabel className="text-black">
+                Payrollee Deductions (USD)
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Payrollee deductions"
@@ -196,7 +208,13 @@ const CreatePayrolleeForm = ({ setOpen }) => {
           )}
         />
 
-        <Button className="w-full h-[48px]" loading={isLoading} disabled={isLoading}>Create Payrollee</Button>
+        <Button
+          className="w-full h-[48px]"
+          loading={isLoading}
+          disabled={isLoading}
+        >
+          Create Payrollee
+        </Button>
       </form>
     </Form>
   );

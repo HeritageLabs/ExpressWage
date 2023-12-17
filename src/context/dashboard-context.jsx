@@ -61,7 +61,7 @@ export const DashboardProvider = ({ children }) => {
   const publicClient = usePublicClient();
   const queryClient = useQueryClient();
 
-  const {address} = useAccount();
+  const {address, isConnected} = useAccount();
 
   const { connect} = useConnect({
       connector: new InjectedConnector({chains: [celo], options: {shimDisconnect: false}}),
@@ -79,6 +79,13 @@ export const DashboardProvider = ({ children }) => {
     keepPreviousData: true,
   });
 
+  const { data: history, isError: isHistoryError, error: historyError, isLoading: historyLoading } = useQuery({
+    queryKey: ['allTransactions'],
+    queryFn: () => fetchData('/transactions'),
+    enabled: isConnected,
+    keepPreviousData: true,
+  });
+
   const payrollees = data?.data?.map((payrollee) => ({
     ...payrollee,
     lastPaid:
@@ -89,15 +96,17 @@ export const DashboardProvider = ({ children }) => {
           }),
   })) || [];
 
-  useEffect(() => {
-    if (isError) {
-      toast({
-        title: 'Uh oh! Error occurred',
-        description: error?.response?.data?.message,
-        variant: 'destructive',
-      });
-    }
-  }, [isError]);
+  const trxHistory = history?.data;
+
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast({
+  //       title: 'Uh oh! Error occurred',
+  //       description: error?.response?.data?.message,
+  //       variant: 'destructive',
+  //     });
+  //   }
+  // }, [isError]);
 
   const fetchData = async (endpoint) => {
     return instance.get(`${endpoint}?signature=${address}`);
@@ -218,7 +227,7 @@ export const DashboardProvider = ({ children }) => {
   //     }
   // }
 
-  const value = { payUser, postData, fetchData, payrollees, isLoading };
+  const value = { payUser, postData, fetchData, payrollees, isLoading, trxHistory, historyLoading };
 
   return (
     <DashboardContext.Provider value={value}>
