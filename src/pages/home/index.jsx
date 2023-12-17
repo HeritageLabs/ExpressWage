@@ -4,11 +4,19 @@ import { Button } from '../../components/ui/button';
 import { PAYROLL_URL } from '../../config/paths';
 import { useAccount } from 'wagmi';
 import { CustomButton } from '../../components/ui/custom-button';
+import { toast } from '../../components/ui/use-toast';
 
 
 const Home = () => {
   const navigate = useNavigate();
   const { isConnected } = useAccount();
+
+  const handleIndividual = () => {
+    toast({
+      title: 'Coming soon!!! 😎',
+      description: 'We are working hard to get it done, check again few days time',
+    });
+  }
   
   return (
     <HomeLayout>
@@ -29,7 +37,7 @@ const Home = () => {
                 className="h-[45px] px-8 bg-secondary text-white hover:bg-secondary"
                 onClick={() => navigate(PAYROLL_URL)}
               >
-                Go to dashboard
+                For organization
               </Button>
             ) : (
               <CustomButton
@@ -42,9 +50,9 @@ const Home = () => {
             {isConnected || (window.ethereum && window.ethereum.isMiniPay)? (
               <Button
                 className="h-[45px] px-8 ml-8"
-                onClick={() => navigate(PAYROLL_URL)}
+                onClick={handleIndividual}
               >
-                Continue
+                For Individual
               </Button>
             ) : (
               <CustomButton chainStatus="none" className="h-[45px] px-8 ml-8" />

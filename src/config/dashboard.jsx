@@ -59,7 +59,7 @@ export const dashboardConfig = {
       cell: ({ row }) => {
         const status = row.getValue('status');
         return (
-          <Button className={`capitalize ${status === 'success' ? 'bg-background border border-[#16A34A] text-[#16A34A]' : 'bg-background border border-[#B91C1C] text-[#B91C1C]'}`} disabled>{status}</Button>
+          <Button className={`capitalize text-sm ${status === 'SUCCESS' ? 'bg-background border border-[#16A34A] text-[#16A34A]' : 'bg-background border border-[#B91C1C] text-[#B91C1C]'}`} disabled>{status}</Button>
         )
       }
     },
@@ -103,7 +103,7 @@ export const dashboardConfig = {
       return (
         <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-        <Button className="bg-background text-primary font-light border border-slate-200 hover:bg-slate-50">Pay user</Button>
+        <Button className="bg-background text-primary text-sm font-light border border-slate-200 hover:bg-slate-50">Pay user</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[525px]">
           <DialogHeader>

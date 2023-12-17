@@ -35,7 +35,7 @@ const DataTable = ({
   return (
     <div className={cn("bg-table rounded-lg", className)}>
       <div>
-        <Table>
+        <Table className="text-sm">
           <TableHeader className="overflow-hidden whitespace-nowrap font-extraLight text-ellipsis">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -54,7 +54,7 @@ const DataTable = ({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="font-extralight">
+          <TableBody className="font-extralight text-sm">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -64,7 +64,7 @@ const DataTable = ({
                   className={`${handleClickRow && 'cursor-pointer'} text-xs md:text-base`}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="capitalize font-extralight">
+                    <TableCell key={cell.id} className="capitalize font-extralight text-sm">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
